@@ -78,10 +78,12 @@ export class AlertTransComponent implements OnInit {
     console.log('pageModel.data:', this.pageModel.data);
     console.log('alert_id:', this.pageModel.data['alert_id']);
     const sviWindow = window as SviWindow;
+    const jobPath = this.childNode.typeAttributes?.['jobPath'];
 
     try {
 
-      await sviWindow.sas.vi.http.get("/SASJobExecution/?_program=/Public/alertTransactions&aid="+this.pageModel.data['alert_id'])
+      await sviWindow.sas.vi.http.get(`/SASJobExecution/?_program=${encodeURIComponent(jobPath)}&aid=${this.pageModel.data['alert_id']}`
+      )
         .then((response: HttpResponse<string>) => {
           console.log("Alert scenarios response:", response);
           
